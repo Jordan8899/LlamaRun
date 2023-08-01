@@ -471,7 +471,7 @@ python-versions = "*"
 ujson = ">=3.0.0"
 
 [package.extras]
-test = ["coverage", "pytest-cov", "pytest", "pyflakes", "pycodestyle", "pylint"]
+test = ["pylint", "pycodestyle", "pyflakes", "pytest", "pytest-cov", "coverage"]
 
 [[package]]
 name = "python-lsp-server"
@@ -662,6 +662,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "xintool"
+version = "0.0.7"
+description = "python opensource tools"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "yapf"
 version = "0.40.1"
 description = "A formatter for Python code."
@@ -689,7 +697,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-ena
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8.0,<3.9"
-content-hash = "0f492d29ba82b34d27c9226a41f9d106232732f7e5ce2f3708d19ad75aa34f82"
+content-hash = "f259fb7f66884abcdc9aa738b6c8dc5251eda6cf2aa4cee3847e71933110d887"
 
 [metadata.files]
 cachecontrol = []
@@ -749,5 +757,6 @@ urllib3 = []
 virtualenv = []
 webencodings = []
 whatthepatch = []
+xintool = []
 yapf = []
 zipp = []
