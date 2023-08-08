@@ -5,13 +5,16 @@ import pygame
 from functions import *
 from constants_lists_dict import *
 import time
+from player import *
 
 # Sets up pygame within the program, screen is the screen size for the program pulling from constants..., fills background colour
 pygame.init()
 pygame.display.update()
-time.sleep(3)
-# Main Routine
 
+
+# Main Routine
+while not quit_game:
+  movement()
 
 # Play Again
 
