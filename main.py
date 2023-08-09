@@ -15,7 +15,8 @@ pygame.display.update()
 # Main Routine
 while not quit_game:
   movement()
-
+  pygame.display.update()
+  
 # Play Again
 
 

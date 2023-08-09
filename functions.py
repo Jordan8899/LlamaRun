@@ -17,10 +17,18 @@ def movement():
         cld.quit_game = True
       if event.type == pygame.KEYDOWN:
         if event.key == pl.player_jump:
-          cld.player_y_change = pl.player_jump_height
+          cld.player_y_change = 10#pl.player_jump_height
           print("Jumped")
         elif event.key == pl.player_crouch:
-          cld.player_y_change = pl.player_crouch_height
+          cld.player_y_change = 10#pl.player_crouch_height
           print("Crouched")
+        elif event.key == pygame.K_ESCAPE:
+          cld.quit_game = True
+          
+    cld.player_location_height += cld.player_y_change
+    #print("Player Y Change", cld.player_y_change)
+    #print("Player Y Pos", cld.player_location_height)
+    
+    return cld.player_location_height
 
-  cld.player_location_height += cld.player_y_change
+pygame.quit()

@@ -48,11 +48,12 @@ background_colour = screen.fill(colours["gray"])
 # Ground that the character jumps on
 ground = pygame.draw.rect(screen, colours["black"], [ground_location_width, ground_location_height, (ground_location_width + screen_width), pixel_size])
 
+# Player vertical change for jumping and crouching
+player_y_change = 0
+
 # Player Model
 player = pygame.draw.rect(screen, colours["red"], [player_location_width, player_location_height, pixel_size, pixel_size])
 
-# Player vertical change for jumping and crouching
-player_y_change = 0
 
 # Lists
 
