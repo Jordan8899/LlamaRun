@@ -30,5 +30,3 @@ def movement():
     #print("Player Y Pos", cld.player_location_height)
     
     return cld.player_location_height
-
-pygame.quit()

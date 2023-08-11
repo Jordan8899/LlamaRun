@@ -1,5 +1,4 @@
 import pygame
-
 # Dictonaries
 
 # Colours is a dictonary that holds all colour values for future use
