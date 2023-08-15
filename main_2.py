@@ -42,16 +42,59 @@ def game_reset(player_y, cactus_x, quit_game, play_again):
         if event.key == pygame.K_q:
           print("Quit Game")
           play_again = False
-          quit_game = True
     
         elif event.key == pygame.K_r:
           print("Play Again")
           play_again = True
-          quit_game = False
-
           
-  return player_y, cactus_x, quit_game, play_again
-        
+  return play_again
+
+# Score counter
+def score_counter(score):
+  
+  score += 1
+  
+  return score
+
+# Text box on Display
+def message(msg,txt_colour, bkgd_colour, is_score, is_highscore):
+  
+  """
+  Message funtion (msg, txt_colour (colour['colour']), bkgd_colour (colour['colour']), is_score (bool), is_highscore (bool)
+  """
+  
+  if is_score == True:
+    txt = font.render(msg, True, txt_colour)
+    text_box = txt.get_rect(center = ((screen_width / screen_width + 20), (screen_height / screen_height + 20)))
+
+  elif is_highscore == True:
+    txt = font.render(msg, True, txt_colour)
+    text_box = txt.get_rect(center = ((screen_width - 185), (screen_height + 20)))
+    
+  else:
+    txt = font.render(msg, True, txt_colour)
+    text_box = txt.get_rect(center = ((screen_width / 2), (screen_height / 2)))
+    
+  screen.blit(txt, text_box)
+
+# Highscore
+def load_high_score(score):
+    try:
+      hi_score_file = open("Highscore.txt", "r")
+    except:
+      hi_score_file = open("Highscore.txt", "w")
+      hi_score_file.write("0")
+    hi_score_file = open("Highscore.txt", "r")
+    value = hi_score_file.read()
+
+    if score > int(value):
+      hi_score_file = open("Highscore.txt", "w")
+      hi_score_file.write(str(score))
+      value = score
+    
+    hi_score_file.close()
+    return value
+  
 # Dictonaries
 
 # Colours is a dictonary that holds all colour values for future use
@@ -87,6 +130,9 @@ cactus_x = screen_width
 
 # Obstacle Speed
 speed = 10
+
+# Score
+score = 0
   
 # Jump and Crouch Control
 has_crouched = False
@@ -95,6 +141,10 @@ has_jumped = False
 
 # Sets up pygame within the program, screen is the screen size for the program pulling from constants..., fills background colour
 pygame.init()
+
+# Fonts
+font = pygame.font.Font("paul.ttf", 50)
+#font = pygame.font.SysFont("arialblack", 50)
 
 # Game name and icon for the window
 game_name = pygame.display.set_caption("  Llama Game")
@@ -165,12 +215,24 @@ while not quit_game and play_again == True:
   
     if cactus_x == player_x and cactus_y == player_y:
       game_over = True
-      print("Player Died to Cactus")
+      #message("You Died to Cactus"), colours["black"], None, False, False
     
     # Player Model
     player = pygame.draw.rect(screen, colours["red"], 
                               [player_x, player_y, pixel_size, pixel_size])
   
+    pygame.display.update()
+
+    # Score
+    score = score_counter(score)
+
+    # Score Counter
+    message("Score: {}".format(score), colours["black"], None, True, False)
+
+    # Highscore Counter
+    highscore = load_high_score(score)
+    message("Highscore: {}".format(highscore), colours["black"], None, False, True)
+
     pygame.display.update()
   
   # Play Again
@@ -178,20 +240,21 @@ while not quit_game and play_again == True:
     
     play_game = game_reset(player_y, cactus_x, quit_game, play_again)
     
-    if play_game[2] == True:
+    if play_game == False:
       quit_game = True
       play_again = False
 
-    if play_game[3] == True and game_over:
+    elif play_game == True and game_over:
       
       player_y = ground_location_height - pixel_size
       cactus_x = screen_width
       
       quit_game = False
       play_again = True
+      game_over = False
+
+      score = 0
       
-    
-        
 
 # Quit Game
 print("Game Quit!!!!")
