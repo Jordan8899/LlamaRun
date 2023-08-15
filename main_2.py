@@ -1,4 +1,5 @@
 # Imports
+from cgitb import reset
 import pygame
 import time
 
@@ -16,13 +17,13 @@ def movement(quit_game, player_location_height, player_y_change, player_jump, pl
       if event.type == pygame.QUIT:
         quit_game = True
       if event.type == pygame.KEYDOWN:
-        if event.key == player_jump and has_jumped == False:
+        if event.key == player_jump and not has_jumped and not has_crouched:
           player_y_change = -10   
             
           print("Jumped")
           has_jumped = True
           
-        elif event.key == player_crouch and has_crouched == False:
+        elif event.key == player_crouch and not has_crouched and not has_jumped:
           player_y_change = 10
           
           print("Crouched")
@@ -49,13 +50,6 @@ def game_reset(player_y, cactus_x, quit_game, play_again):
           
   return play_again
 
-# Score counter
-def score_counter(score):
-  
-  score += 1
-  
-  return score
-
 # Text box on Display
 def message(msg,txt_colour, bkgd_colour, is_score, is_highscore):
   
@@ -65,7 +59,7 @@ def message(msg,txt_colour, bkgd_colour, is_score, is_highscore):
   
   if is_score == True:
     txt = font.render(msg, True, txt_colour)
-    text_box = txt.get_rect(center = ((screen_width / screen_width + 20), (screen_height / screen_height + 20)))
+    text_box = txt.get_rect(center = ((screen_width / screen_width + 40), (screen_height / screen_height + 20)))
 
   elif is_highscore == True:
     txt = font.render(msg, True, txt_colour)
@@ -108,8 +102,10 @@ colours = {
 # Constants
 
 # These are the screen size variables, change these to change the screen size to prefered
-screen_height = 1080
-screen_width = 1920
+screen_height = 700
+screen_width = 700
+
+clock = pygame.time.Clock()
 
 # Pixel size, this indicates player size and object size
 pixel_size = 25
@@ -173,6 +169,7 @@ pygame.display.update()
 quit_game = False
 play_again = True
 game_over = False
+reset_posistion = True
 while not quit_game and play_again == True:
   while game_over == False:
     # Screen Background
@@ -200,9 +197,8 @@ while not quit_game and play_again == True:
       has_crouched = False
   
     # Player Crouch Control Stops player from going too far down
-    elif player_y > ground_location_height + 10 and has_crouched:
-      player_y_change = -10
-  
+    elif player_y > ground_location_height + 35:
+      player_y_change = -10  
   
     # Obstacle
     cactus = pygame.draw.rect(screen, colours["white"], [cactus_x, cactus_y, pixel_size, pixel_size])
@@ -220,11 +216,9 @@ while not quit_game and play_again == True:
     # Player Model
     player = pygame.draw.rect(screen, colours["red"], 
                               [player_x, player_y, pixel_size, pixel_size])
-  
-    pygame.display.update()
 
     # Score
-    score = score_counter(score)
+    score += 1
 
     # Score Counter
     message("Score: {}".format(score), colours["black"], None, True, False)
@@ -232,6 +226,8 @@ while not quit_game and play_again == True:
     # Highscore Counter
     highscore = load_high_score(score)
     message("Highscore: {}".format(highscore), colours["black"], None, False, True)
+
+    clock.tick(50)
 
     pygame.display.update()
   
